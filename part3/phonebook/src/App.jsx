@@ -11,6 +11,7 @@ const App = () => {
   useEffect(() => {
     PersonsServices.getAll().then((response) => {
       setPersons(response);
+      console.logº(response);
     });
   }, []);
 
@@ -55,10 +56,12 @@ const App = () => {
 
   const newPerson = (event) => {
     event.preventDefault();
+    console.log("newName", newName, newNumber);
 
     PersonsServices.create({ name: newName, number: newNumber }).then(
       (response) => {
         if (response.status === 200) {
+          console.log("paso");
           setPersons(persons.concat(response.data));
           setNewName("");
           setNewNumber("");
@@ -68,6 +71,7 @@ const App = () => {
           }, 5000);
         } else {
           {
+            console.log("no paso");
             setNotification([false, `Failed to add ${newName}`]);
             setTimeout(() => {
               setNotification(null);
