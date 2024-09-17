@@ -3,12 +3,10 @@ const baseUrl = "/api/persons";
 
 const getAll = () => {
   const request = axios.get(baseUrl);
-  console.log(request);
   return request.then((response) => response.data);
 };
 
 const create = (newObject) => {
-  console.log(baseUrl, newObject);
   return axios.post(baseUrl, newObject);
 };
 
