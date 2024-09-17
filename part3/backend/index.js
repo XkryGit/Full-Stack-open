@@ -55,23 +55,29 @@ app.delete("/api/persons/:id", (request, response) => {
 app.post("/api/persons", (request, response) => {
   const body = request.body;
 
-  if (!body.name || !body.number) {
-    return response.status(400).json({
-      error: "name or number missing",
-    });
-  } else {
-    const person = new Phones({
-      name: body.name,
-      number: body.number,
-    });
+  const person = new Phones({
+    name: body.name,
+    number: body.number,
+  });
 
-    person
-      .save()
-      .then((person) => {
-        response.json(person);
-      })
-      .catch((error) => next(error));
+  if (!body.name) {
+    return response.status(400).json({
+      error: "Name missing",
+    });
   }
+
+  if (!body.number) {
+    return response.status(400).json({
+      error: "Number missing",
+    });
+  }
+
+  person
+    .save()
+    .then((person) => {
+      response.json(person);
+    })
+    .catch((error) => console.log(error));
 });
 
 const PORT = process.env.PORT;
