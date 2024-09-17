@@ -37,12 +37,12 @@ app.get("/api/persons/:id", (request, response) => {
   });
 });
 
-app.delete("/api/persons/:id", (request, response, next) => {
+app.delete("/api/persons/:id", (request, response) => {
   Phones.findByIdAndRemove(request.params.id)
     .then(() => {
       response.status(204).end();
     })
-    .catch((error) => next(error));
+    .catch((error) => console.log(error));
 });
 
 app.post("/api/persons", (request, response) => {
