@@ -33,26 +33,24 @@ const App = () => {
   };
 
   const handleDelete = (id) => {
-    window.confirm("Do you really want to delete this person?") &&
+    if (window.confirm("Do you really want to delete this person?")) {
       PersonsServices.deletePerson(id)
         .then((response) => {
           if (response.status === 204) {
             setPersons(persons.filter((person) => person.id !== id));
-            setNotification([true, `Note deletes successfully`]);
+            setNotification([true, `Note deleted successfully`]);
             setTimeout(() => {
               setNotification(null);
             }, 5000);
           }
         })
         .catch(() => {
-          setNotification([
-            false,
-            `Information can't been removed from server`,
-          ]);
+          setNotification([false, `Information can't be removed from server`]);
           setTimeout(() => {
             setNotification(null);
           }, 5000);
         });
+    }
   };
 
   const newPerson = (event) => {
