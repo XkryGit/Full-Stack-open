@@ -28,45 +28,25 @@ app.get("/api/persons", (request, response) => {
 });
 
 app.get("/api/persons/:id", (request, response) => {
-  const id = Number(request.params.id);
-  const Phone = Phones.find((Phone) => Phone.id === id);
-
-  if (Phone) {
-    response.json(Phone);
-  } else {
-    response.status(404).end();
-  }
+  Phones.findById(request.params.id).then((Phone) => {
+    if (Phone) {
+      response.json(Phone);
+    } else {
+      response.status(404).end();
+    }
+  });
 });
 
 app.delete("/api/persons/:id", (request, response) => {
-  const id = Number(request.params.id);
-  Phones = Phones.filter((Phone) => Phone.id !== id);
-
-  response.status(204).end();
+  Phones.findByIdAndRemove(request.params.id)
+    .then((result) => {
+      response.status(204).end();
+    })
+    .catch((error) => next(error));
 });
 
 app.post("/api/persons", (request, response) => {
   const body = request.body;
-
-  if (!body.name) {
-    return response.status(400).json({
-      error: "name missing",
-    });
-  }
-
-  if (!body.number) {
-    return response.status(400).json({
-      error: "number missing",
-    });
-  }
-
-  const personExists = Phones.find((Phone) => Phone.name === body.name);
-
-  if (personExists) {
-    return response.status(400).json({
-      error: "name must be unique",
-    });
-  }
 
   const person = {
     id: Math.floor(Math.random() * 1000000),
@@ -74,9 +54,21 @@ app.post("/api/persons", (request, response) => {
     number: body.number,
   };
 
-  Phones = Phones.concat(person);
-
-  response.json(Phones);
+  if (!body.name) {
+    return response.status(400).json({
+      error: "name missing",
+    });
+  } else if (!body.number) {
+    return response.status(400).json({
+      error: "number missing",
+    });
+  } else {
+    Phones.save()
+      .then((savedPhone) => {
+        response.json(savedPhone);
+      })
+      .catch((error) => next(error));
+  }
 });
 
 const PORT = process.env.PORT;
