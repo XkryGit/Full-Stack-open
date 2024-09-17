@@ -2,12 +2,13 @@ const mongoose = require("mongoose");
 
 mongoose.set("strictQuery", false);
 
-const url = process.env.MONGODB_URI;
+const url =
+  "mongodb+srv://xkry:7SGihKA@xkrycluster.skxch.mongodb.net/phonebook?retryWrites=true&w=majority&appName=XkryCluster";
 
 console.log("connecting to", url);
 
 mongoose
-  .connect(url.toString())
+  .connect(url)
   .then((result) => {
     console.log("connected to MongoDB");
   })
