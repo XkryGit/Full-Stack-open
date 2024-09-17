@@ -39,17 +39,10 @@ app.get("/api/persons/:id", (request, response) => {
 
 app.delete("/api/persons/:id", (request, response) => {
   Phones.findByIdAndRemove(request.params.id)
-    .then((result) => {
-      if (result) {
-        response.status(204).end();
-      } else {
-        response.status(404).send({ error: "Person not found" });
-      }
+    .then(() => {
+      response.status(204).end();
     })
-    .catch((error) => {
-      console.error(error);
-      response.status(500).send({ error: "Server error" });
-    });
+    .catch((error) => console.log(error));
 });
 
 app.post("/api/persons", (request, response) => {
