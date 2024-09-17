@@ -37,7 +37,7 @@ app.get("/api/persons/:id", (request, response) => {
   });
 });
 
-app.delete("/api/persons/:id", (request, response, next) => {
+app.delete("/api/persons/:id", (request, response) => {
   Phones.findByIdAndRemove(request.params.id)
     .then((result) => {
       response.status(204).end();
@@ -47,9 +47,7 @@ app.delete("/api/persons/:id", (request, response, next) => {
 
 app.post("/api/persons", (request, response) => {
   const body = request.body;
-
   const person = {
-    id: Math.floor(Math.random() * 1000000),
     name: body.name,
     number: body.number,
   };
@@ -63,7 +61,8 @@ app.post("/api/persons", (request, response) => {
       error: "number missing",
     });
   } else {
-    Phones.save()
+    person
+      .save()
       .then((savedPhone) => {
         response.json(savedPhone);
       })
