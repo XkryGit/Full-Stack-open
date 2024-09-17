@@ -47,7 +47,7 @@ const App = () => {
         .catch(() => {
           setNotification([
             false,
-            `Information has already been removed from the server`,
+            `Information can't been removed from server`,
           ]);
           setTimeout(() => {
             setNotification(null);
