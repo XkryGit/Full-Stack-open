@@ -2,10 +2,7 @@ const mongoose = require("mongoose");
 
 mongoose.set("strictQuery", false);
 
-const url =
-  "mongodb+srv://xkry:7SGihKA@xkrycluster.skxch.mongodb.net/phonebook?retryWrites=true&w=majority&appName=XkryCluster";
-
-console.log("connecting to", url);
+const url = process.env.MONGODB_URI;
 
 mongoose
   .connect(url)
