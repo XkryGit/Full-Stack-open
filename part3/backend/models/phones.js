@@ -20,7 +20,6 @@ const phoneSchema = new mongoose.Schema({
   },
   number: {
     type: String,
-    validate: numberValidators,
     required: true,
   },
 });
