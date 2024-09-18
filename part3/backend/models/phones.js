@@ -12,34 +12,21 @@ mongoose
     console.log("error connecting to MongoDB:", error.message);
   });
 
-const numberValidators = [
-  {
-    // Minimum length validator
-    validator: (number) => {
-      if ((number[2] === "-" || number[3] === "-") && number.length < 9) {
-        return false;
-      }
-      return true;
-    },
-    msg: "must be at least 8 digits",
-  },
-  {
-    validator: (number) => {
-      return /^\d{2,3}-\d+$/.test(number);
-    },
-    msg: "invalid phone number",
-  },
-];
-
 const phoneSchema = new mongoose.Schema({
   name: {
     type: String,
-    minlength: 3,
+    minLength: 4,
     required: true,
   },
   number: {
     type: String,
-    validate: numberValidators,
+    validate: {
+      validator: function (v) {
+        return /^\d{2,3}-\d{7,}/.test(v);
+      },
+      message: (props) => `${props.value} is not a valid phone number!`,
+    },
+    minLength: 8,
     required: true,
   },
 });
