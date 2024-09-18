@@ -55,25 +55,57 @@ const App = () => {
 
   const newPerson = (event) => {
     event.preventDefault();
+    const existingPerson = persons.find((person) => person.name === newName);
 
-    PersonsServices.create({ name: newName, number: newNumber }).then(
-      (response) => {
-        if (response.status === 200) {
-          setPersons(persons.concat(response.data));
-          setNewName("");
-          setNewNumber("");
-          setNotification([true, `Note '${newName}' was added`]);
-          setTimeout(() => {
-            setNotification(null);
-          }, 5000);
-        } else {
-          setNotification([false, `Failed to add ${newName}`]);
-          setTimeout(() => {
-            setNotification(null);
-          }, 5000);
+    if (existingPerson) {
+      window.confirm(
+        `${newName} is already added to phonebook, replace the old number with a new one?`
+      ) &&
+        PersonsServices.editPerson(existingPerson.id, {
+          ...existingPerson,
+          number: newNumber,
+        }).then((response) => {
+          if (response.status === 200) {
+            setPersons(
+              persons.map((person) =>
+                person.id !== existingPerson.id
+                  ? person
+                  : { ...person, number: newNumber }
+              )
+            );
+            setNotification([true, `Note '${existingPerson.name}' was edited`]);
+            setTimeout(() => {
+              setNotification(null);
+            }, 5000);
+          } else {
+            setNotification([false, `Failed to edit ${newName}`]);
+            setTimeout(() => {
+              setNotification(null);
+            }, 5000);
+          }
+        });
+    } else {
+      PersonsServices.create({ name: newName, number: newNumber }).then(
+        (response) => {
+          if (response.status === 201) {
+            setPersons(persons.concat(response.data));
+            setNewName("");
+            setNewNumber("");
+            setNotification([true, `Note '${newName}' was added`]);
+            setTimeout(() => {
+              setNotification(null);
+            }, 5000);
+          } else {
+            {
+              setNotification([false, `Failed to add ${newName}`]);
+              setTimeout(() => {
+                setNotification(null);
+              }, 5000);
+            }
+          }
         }
-      }
-    );
+      );
+    }
   };
 
   return (
