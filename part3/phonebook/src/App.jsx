@@ -85,26 +85,22 @@ const App = () => {
           }
         });
     } else {
-      PersonsServices.create({ name: newName, number: newNumber }).then(
-        (response) => {
-          if (response.status === 201) {
-            setPersons(persons.concat(response.data));
-            setNewName("");
-            setNewNumber("");
-            setNotification([true, `Note '${newName}' was added`]);
-            setTimeout(() => {
-              setNotification(null);
-            }, 5000);
-          } else {
-            {
-              setNotification([false, `Failed to add ${newName}`]);
-              setTimeout(() => {
-                setNotification(null);
-              }, 5000);
-            }
-          }
-        }
-      );
+      PersonsServices.create({ name: newName, number: newNumber })
+        .then((response) => {
+          setPersons(persons.concat(response.data));
+          setNewName("");
+          setNewNumber("");
+          setNotification([true, `Note '${newName}' was added`]);
+          setTimeout(() => {
+            setNotification(null);
+          }, 5000);
+        })
+        .catch((error) => {
+          setNotification([false, error.response.data.error]);
+          setTimeout(() => {
+            setNotification(null);
+          }, 5000);
+        });
     }
   };
 

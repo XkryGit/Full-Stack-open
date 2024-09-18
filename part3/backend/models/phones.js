@@ -13,8 +13,16 @@ mongoose
   });
 
 const phoneSchema = new mongoose.Schema({
-  name: String,
-  number: String,
+  name: {
+    type: String,
+    minlength: 3,
+    required: true,
+  },
+  number: {
+    type: String,
+    validate: numberValidators,
+    required: true,
+  },
 });
 
 phoneSchema.set("toJSON", {
