@@ -96,6 +96,7 @@ const App = () => {
           }, 5000);
         })
         .catch((error) => {
+          console.log(error);
           setNotification([false, error.response.data.error]);
           setTimeout(() => {
             setNotification(null);
