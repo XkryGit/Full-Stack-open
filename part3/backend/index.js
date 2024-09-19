@@ -1,9 +1,10 @@
+const http = require("http");
 require("dotenv").config();
 
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
-const Phones = require("./models/phones").default;
+const Phones = require("./models/phones");
 
 const app = express();
 app.use(cors());
