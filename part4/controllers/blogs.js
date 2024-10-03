@@ -12,7 +12,7 @@ blogsRouter.get("/", async (request, response) => {
 });
 
 blogsRouter.post("/", async (request, response) => {
-  const { title, author, user } = request.body;
+  const { title, author, url } = request.body;
 
   const decodedToken = jwt.verify(request.token, process.env.SECRET);
   if (!decodedToken.id) {
@@ -28,7 +28,7 @@ blogsRouter.post("/", async (request, response) => {
     return response.status(400).json({ error: "Author is required" });
   }
 
-  const blog = new Blog(request.body);
+  const blog = new Blog({ title, author, url, likes: 0, user: userId._id });
 
   const savedBlog = await blog.save();
   userId.blogs = userId.blogs ? userId.blogs.concat(savedBlog) : [savedBlog];
