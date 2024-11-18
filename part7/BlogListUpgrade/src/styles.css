@@ -1,0 +1,49 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 8;
+  padding: 0;
+  background-color: #f0f0f0;
+  background: linear-gradient(to right, #945fff, #361bd0);
+  color: #f0f0f0;
+}
+
+.navBar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 170px;
+  margin: 0 auto;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-48%, -48%);
+}
+
+.buttonSpecial {
+  background-color: #f0f0f0;
+  color: #5a1bd0;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  margin-top: 8px;
+  height: 38px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.blocks {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.link {
+  text-decoration: none;
+  background-color: #f0f0f0;
+  color: #5a1bd0;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+}
